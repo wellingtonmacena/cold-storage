@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Entities\" />
-    <Folder Include="Models\Enums\" />
     <Folder Include="Models\Requests\" />
   </ItemGroup>
 

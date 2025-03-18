@@ -2,6 +2,11 @@
 {
     public class ColdStorage
     {
-        public Stream Stream { get; set; }
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Name { get; set; }
+        public DataStream DataStream { get; set; }
+        public FileStorage FileStorage { get; set; }
+        public DataCatalog DataCatalog { get; set; }
     }
 }

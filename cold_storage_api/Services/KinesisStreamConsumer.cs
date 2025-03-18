@@ -16,8 +16,8 @@ namespace cold_storage_api.Services
             new BasicAWSCredentials("test", "test"), // Use LocalStack credentials
             new AmazonKinesisConfig
             {
-                ServiceURL = coldStorage.Stream.ProviderEndpoint, // LocalStack endpoint
-                //RegionEndpoint = RegionEndpoint.GetBySystemName(coldStorage.Stream.ProviderRegion) // Match your setup
+                ServiceURL = coldStorage.Stream.ServiceEndpoint, // LocalStack endpoint
+                //RegionEndpoint = RegionEndpoint.GetBySystemName(coldStorage.Stream.ServiceRegion) // Match your setup
             }
             );
 

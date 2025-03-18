@@ -25,12 +25,29 @@ namespace cold_storage_api.Controllers
         {
             ColdStorage coldStorage = new ColdStorage()
             {
-
-                Stream = new Models.Dtos.Stream()
+                Id = Guid.NewGuid(),
+                Name = "Test",
+                CreatedAt = DateTime.UtcNow,
+                DataCatalog = new DataCatalog()
+                {
+                    Name = "cold-storage-data-catalog",
+                    ServiceEndpoint = "http://localhost:4566",
+                    ServiceRegion = "us-east-1",
+                    CloudProvider = Models.Enums.CloudProvider.AWS
+                },
+                DataStream = new DataStream()
                 {
                     Name = "cold-storage-stream",
-                    ProviderEndpoint = "http://localhost:4566",
-                    ProviderRegion = "us-east-1",
+                    ServiceEndpoint = "http://localhost:4566",
+                    ServiceRegion = "us-east-1",
+                    CloudProvider = Models.Enums.CloudProvider.AWS
+                },
+                FileStorage = new FileStorage()
+                {
+                    Name = "cold-storage-bucket",
+                    ServiceEndpoint = "http://localhost:4566",
+                    ServiceRegion = "us-east-1",
+                    CloudProvider = Models.Enums.CloudProvider.AWS
                 }
             };
 
