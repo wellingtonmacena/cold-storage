@@ -10,8 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Kinesis" Version="4.0.0-preview.10" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Entities\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="Models\Requests\" />
   </ItemGroup>
 
 </Project>

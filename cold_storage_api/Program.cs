@@ -1,4 +1,7 @@
 
+using cold_storage_api.Services;
+using cold_storage_api.Services.Interfaces;
+
 namespace cold_storage_api
 {
     public class Program
@@ -14,7 +17,9 @@ namespace cold_storage_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            builder.Services.AddScoped<IStreamConsumer, KinesisStreamConsumer>();
+
+           var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
