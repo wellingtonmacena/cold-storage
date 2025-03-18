@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cold-storage-database-stream-sink", "cold-storage-database-stream-sink.csproj", "{2CAFA1D4-331D-411C-B3BC-C823B9622EBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CAFA1D4-331D-411C-B3BC-C823B9622EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CAFA1D4-331D-411C-B3BC-C823B9622EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CAFA1D4-331D-411C-B3BC-C823B9622EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CAFA1D4-331D-411C-B3BC-C823B9622EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FB230FD-D1F0-459A-A86B-1EF585A4EE00}
+	EndGlobalSection
+EndGlobal

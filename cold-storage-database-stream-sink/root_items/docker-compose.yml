@@ -1,0 +1,57 @@
+name: cold-storage-dp-database-stream-integration
+services:
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --notify-keyspace-events KEA
+    networks:
+      - localstack_network
+  localstack:
+    image: localstack/localstack:3.0.2
+    container_name: localstack
+    environment:
+      - SERVICES=s3,dynamodb,kinesis
+      - AWS_DEFAULT_REGION=us-east-1
+      - DEBUG=1
+            # Defina as credenciais para o LocalStack (essas serão usadas pela sua aplicação também)
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    ports:
+      # Now only required if you need to access LocalStack from the host
+      - "127.0.0.1:4566:4566"
+      # Now only required if you need to access LocalStack from the host
+      - "127.0.0.1:4510-4559:4510-4559"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - "./local/localstack/init/init-kinesis.sh:/etc/localstack/init/ready.d/init-aws.sh"
+    networks:
+      - localstack_network
+  database-stream-sink:
+    build: "./"
+    container_name: database-stream-sink
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DATABASE_HOST: localhost:6379,
+      DATABASE_LISTENING_EVENT: __keyevent@0__:*,
+      STREAM_HOST: https://localhost:4566,
+      PROVIDER_STREAM_REGION: us-east-1,
+      PROVIDER_SECRET_ID: test,
+      PROVIDER_SECRET_KEY: test,
+      STREAM_NAME: cold-storage-stream
+    networks:
+      - localstack_network
+
+volumes:
+  redis_data:
+    driver: local
+  localstack_data:
+    driver: local
+
+
+networks:
+  localstack_network:
+    driver: bridge
