@@ -44,10 +44,10 @@ namespace cold_storage_database_stream_sink.src.Services
             subscriber.Subscribe(_sinkOptions.DatabaseListeningEvent, async (channel, message) =>
             {
                 string eventType = channel.ToString().Split(":").Last();
-                if (eventType.Equals("del")) return;
+                if (!eventType.Equals("set")) return;
 
                 string key = message.ToString();
-                RedisValue value = redis.GetDatabase().StringGet(key);
+                string value = redis.GetDatabase().StringGet(key).ToString();
 
                 // Constrói o evento para o Kinesis
                 string json = JsonSerializer.Serialize(new Payload(key, value));
@@ -68,7 +68,7 @@ namespace cold_storage_database_stream_sink.src.Services
 
             _logger.LogInformation("Monitorando mudanças no Redis...");
 
-            return;
+         
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

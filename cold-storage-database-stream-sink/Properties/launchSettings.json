@@ -7,7 +7,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_HOST": "localhost:6379",
-        "DATABASE_LISTENING_EVENT": "__keyevent@0__:*",
+        "DATABASE_LISTENING_EVENT": "__keyevent@0__:set",
         "STREAM_HOST": "localhost:4566",
         "PROVIDER_STREAM_REGION": "us-east-1",
         "PROVIDER_SECRET_ID": "test",

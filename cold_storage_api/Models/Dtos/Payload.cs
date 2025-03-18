@@ -1,6 +1,4 @@
-﻿using StackExchange.Redis;
-
-namespace cold_storage_database_stream_sink.Models.Contracts
+﻿namespace cold_storage_api.Models.Dtos
 {
     public class Payload
     {
@@ -9,7 +7,7 @@ namespace cold_storage_database_stream_sink.Models.Contracts
             Key = key;
             Value = value;
         }
-        
+
         public string Key { get; set; }
         public string Value { get; set; }
     }

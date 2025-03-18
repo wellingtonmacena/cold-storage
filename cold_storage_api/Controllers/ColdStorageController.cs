@@ -14,7 +14,7 @@ namespace cold_storage_api.Controllers
             _streamConsumer = streamConsumer;
         }
 
-        [HttpGet] 
+        [HttpGet]
         public async Task GetById()
         {
 
@@ -23,28 +23,31 @@ namespace cold_storage_api.Controllers
         [HttpPost]
         public async Task StartProssessing()
         {
-            ColdStorage coldStorage = new ColdStorage()
+            ColdStorage coldStorage = new()
             {
                 Id = Guid.NewGuid(),
-                Name = "Test",
+                ApplicationName = "ApplicationName",
+                ServiceName = "ServiceName",
                 CreatedAt = DateTime.UtcNow,
                 DataCatalog = new DataCatalog()
                 {
-                    Name = "cold-storage-data-catalog",
+                    TableName = "cold-storage-data-catalog",
                     ServiceEndpoint = "http://localhost:4566",
                     ServiceRegion = "us-east-1",
                     CloudProvider = Models.Enums.CloudProvider.AWS
                 },
                 DataStream = new DataStream()
                 {
-                    Name = "cold-storage-stream",
+                    StreamName = "cold-storage-stream",
                     ServiceEndpoint = "http://localhost:4566",
                     ServiceRegion = "us-east-1",
-                    CloudProvider = Models.Enums.CloudProvider.AWS
+                    CloudProvider = Models.Enums.CloudProvider.AWS,
+                    MaxItemsToFetch = 10000,
+                    PollingInterval = TimeSpan.FromSeconds(30),
                 },
                 FileStorage = new FileStorage()
                 {
-                    Name = "cold-storage-bucket",
+                    BucketName = "cold-storage-bucket",
                     ServiceEndpoint = "http://localhost:4566",
                     ServiceRegion = "us-east-1",
                     CloudProvider = Models.Enums.CloudProvider.AWS
@@ -53,6 +56,6 @@ namespace cold_storage_api.Controllers
 
             _streamConsumer.ConsumeStream(coldStorage);
         }
-        
+
     }
 }
