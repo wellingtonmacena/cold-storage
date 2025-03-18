@@ -9,7 +9,7 @@ services:
       - redis_data:/data
     command: redis-server --notify-keyspace-events KEA
     networks:
-      - localstack_network
+      - ls
   localstack:
     image: localstack/localstack:3.0.2
     container_name: localstack
@@ -27,23 +27,33 @@ services:
       - "127.0.0.1:4510-4559:4510-4559"
     volumes:
       - localstack_data:/var/lib/localstack
-      - "./local/localstack/init/init-kinesis.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - "./root_items/local/localstack/init/init-kinesis.sh:/etc/localstack/init/ready.d/init-aws.sh"
     networks:
-      - localstack_network
+      ls:
+        # Set the container IP address in the 10.0.2.0/24 subnet
+        ipv4_address: 10.0.2.20
+
   database-stream-sink:
     build: "./"
     container_name: database-stream-sink
+    ports:
+      - "8080:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DATABASE_HOST: localhost:6379,
-      DATABASE_LISTENING_EVENT: __keyevent@0__:*,
-      STREAM_HOST: https://localhost:4566,
-      PROVIDER_STREAM_REGION: us-east-1,
-      PROVIDER_SECRET_ID: test,
-      PROVIDER_SECRET_KEY: test,
+      DATABASE_HOST: redis:6379
+      DATABASE_LISTENING_EVENT: __keyevent@0__:*
+      STREAM_HOST: http://localstack:4566
+      PROVIDER_STREAM_REGION: us-east-1
+      PROVIDER_SECRET_ID: test
+      PROVIDER_SECRET_KEY: test
       STREAM_NAME: cold-storage-stream
+    dns:
+      # Set the DNS server to be the LocalStack container
+      - 10.0.2.20
     networks:
-      - localstack_network
+      - ls
+    depends_on:
+      - localstack
 
 volumes:
   redis_data:
@@ -53,5 +63,8 @@ volumes:
 
 
 networks:
-  localstack_network:
-    driver: bridge
+  ls:
+    ipam:
+      config:
+        # Specify the subnet range for IP address allocation
+        - subnet: 10.0.2.0/24

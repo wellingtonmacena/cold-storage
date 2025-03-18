@@ -19,7 +19,13 @@ namespace ColdStorage_DataPlane.src
 
             // Add services to the container.
 
-            Console.WriteLine(JsonSerializer.Serialize($" ENVIRONMENT: {builder.Configuration.GetValue<string>("ENVIRONMENT")} -- {builder.Configuration.AsEnumerable()}"));
+            var environmentVariables = Environment.GetEnvironmentVariables();
+
+            // Itera sobre todas as variáveis de ambiente e imprime no console
+            foreach (System.Collections.DictionaryEntry variable in environmentVariables)
+            {
+                Console.WriteLine($"{variable.Key}: {variable.Value}");
+            }
 
             Serilog.Core.Logger logger = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)
@@ -30,20 +36,12 @@ namespace ColdStorage_DataPlane.src
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+        
             builder.Services.AddHostedService<KeyValueDbListenerService>();
 
              builder.Services.AddSerilog(logger);
             builder.Services.AddSinkExtension(builder.Configuration);
             WebApplication app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

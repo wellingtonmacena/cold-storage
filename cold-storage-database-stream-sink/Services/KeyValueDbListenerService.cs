@@ -1,4 +1,5 @@
-﻿using Amazon.Kinesis;
+﻿using Amazon;
+using Amazon.Kinesis;
 using Amazon.Kinesis.Model;
 using Amazon.Runtime;
 using cold_storage_database_stream_sink.Models.Contracts;
@@ -31,12 +32,13 @@ namespace cold_storage_database_stream_sink.src.Services
             AmazonKinesisConfig config = new()
             {
                 ServiceURL = _sinkOptions.StreamHost,
+               // RegionEndpoint = RegionEndpoint.GetBySystemName(_sinkOptions.ProviderStreamRegion)
             };
 
             BasicAWSCredentials credentials = new(_sinkOptions.ProviderSecretId, _sinkOptions.ProviderSecretKey);
 
             // Cliente Kinesis
-            AmazonKinesisClient kinesisClient = new(config);
+            AmazonKinesisClient kinesisClient = new( credentials, config);
 
             // Inscreve-se para escutar mudanças no Redis
             subscriber.Subscribe(_sinkOptions.DatabaseListeningEvent, async (channel, message) =>
